@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+__MACOSX/
+
+# Credentials — copy config.example.php → config.php and fill in your values
+config.php
+
+# Uploaded files (if any)
+uploads/
+
+# Logs
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Composer (if added later)
+vendor/
+composer.lock

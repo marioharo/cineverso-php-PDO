@@ -1,0 +1,280 @@
+/* Variables CSS para tema cinematográfico */
+:root {
+    --cine-gold: #D4AF37;
+    --cine-dark: #0F0F0F;
+    --cine-red: #C41E3A;
+    --cine-gray: #1A1A1A;
+}
+
+/* Estilos base */
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--cine-dark);
+    color: #E0E0E0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+}
+
+/* Navbar personalizado */
+.navbar-cine {
+    background: linear-gradient(180deg, rgba(15,15,15,0.98) 0%, rgba(15,15,15,0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--cine-gold);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+}
+
+.navbar-brand {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cine-gold) !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+}
+
+.navbar-brand i {
+    color: var(--cine-red);
+    margin-right: 8px;
+}
+
+.username-gold{
+    color: var(--cine-gold);
+    font-size: 1.2rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+}
+
+.nav-link {
+    color: #E0E0E0 !important;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--cine-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+.nav-link:hover {
+    color: var(--cine-gold) !important;
+}
+
+/* Carrusel cinematográfico */
+.carousel-item {
+    height: 85vh;
+    min-height: 500px;
+    position: relative;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    filter: brightness(0.6);
+}
+
+.carousel-caption {
+    bottom: 25%;
+    text-align: left;
+    left: 10%;
+    right: 10%;
+}
+
+.carousel-caption h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.carousel-caption p {
+    font-size: 1.4rem;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    margin-bottom: 2rem;
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.btn-cine-gold {
+    background-color: var(--cine-gold);
+    color: var(--cine-dark);
+    border: none;
+    padding: 12px 35px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    animation: fadeInUp 1.4s ease-out;
+}
+
+.btn-cine-gold:hover {
+    background-color: #FFD700;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    color: var(--cine-dark);
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--cine-gold);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sección de películas */
+.peliculas-section {
+    background: linear-gradient(180deg, var(--cine-dark) 0%, var(--cine-gray) 100%);
+    padding: 80px 0;
+}
+
+.section-title {
+    font-size: 3rem;
+    color: var(--cine-gold);
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--cine-red), transparent);
+}
+
+/* Cards de películas */
+.pelicula-card {
+    background: linear-gradient(180deg, #1F1F1F 0%, #161616 100%);
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    margin-bottom: 30px;
+    height: 100%;
+}
+
+.pelicula-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+    border-color: var(--cine-gold);
+}
+
+.pelicula-card img {
+    height: 400px;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+.pelicula-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--cine-gold);
+    margin-bottom: 1rem;
+}
+
+.badge-premio {
+    background-color: var(--cine-red);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.info-pelicula {
+    color: #B0B0B0;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+.info-pelicula i {
+    color: var(--cine-gold);
+    margin-right: 8px;
+}
+
+.btn-detalles {
+    background: transparent;
+    border: 2px solid var(--cine-gold);
+    color: var(--cine-gold);
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-detalles:hover {
+    background: var(--cine-gold);
+    color: var(--cine-dark);
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--cine-dark);
+    border-top: 2px solid var(--cine-gold);
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+/* Responsive ajustes */
+@media (max-width: 768px) {
+    .carousel-caption h1 {
+        font-size: 2.5rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+}
