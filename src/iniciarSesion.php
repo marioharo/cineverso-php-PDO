@@ -1,12 +1,18 @@
 <?php
-session_start();
-include_once('./config.php');
-include_once("./functions/functions.php");
+include_once(__DIR__ . '/functions/functions.php');
+include_once(__DIR__ . '/config.php');
+
 // conección con la base de datos MySQL
 $bd = conexion(DB_HOST, DB_NAME, DB_PORT, DB_USER, DB_PASS);
 
 $errores = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // validar token CSRF
+    if (!isset($_POST['csrf_token'])
+        || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("CSRF token inválido");
+    }
+
     $errores = validarLogin($_POST);
 
     if (empty($errores)) {
@@ -17,15 +23,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (password_verify($_POST["password"], $usuario["password"]) == false) {
                 $errores["password"] = "Usuario / Contraseña inválido, intente nuevamente";
             } else {
+                session_regenerate_id(true);
                 // guardamos en SESSION todos los datos del usuario
-                $_SESSION = $usuario;
-                // guardamos en cookies solo el email del usuario durante 72hrs
-                setcookie('email', $usuario["email"], time() + (4320 * 60));
-                header("location: index.php");
+                sessionUsuario($usuario);
+                // guardamos en cookies solo el email del usuario durante 24hrs para el autocompletado en el value del form en iniciarSesion (quitar esto si no es necesario)
+                setcookie('email', $usuario['email'], time() + (60 * 60 * 24), "/");
+                header("location: /home/");
                 exit;
             }
         }
     }
+    unset($_SESSION['csrf_token']);
+    getCsrfToken(); // genera un nuevo token
 }
 
 ?>
@@ -50,11 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css">
     <!-- Css -->
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
-    <?php include_once("./partials/navbar.php") ?>
+
+    <?php include_once(__DIR__ . "/partials/navbar.php") ?>
 
     <!-- Cuerpo principal -->
     <section class="row">
@@ -75,10 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row">
                 <div class="col-8 col-xl-5 mx-auto">
                     <form action="" method="post">
+                        <!-- token CSRF -->
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(getCsrfToken()) ?>">
+                        
                         <div class="mb-3 form-floating">
                             <input type="email" class="form-control <?= isset($errores['email']) ? 'is-invalid' : '' ?>"
                                 id="floatingTextarea" name="email" placeholder="Ingrese su correo"
-                                value="<?= $_POST["email"] ?? "" ?>">
+                                value="<?= $_POST["email"] ?? $_COOKIE["email"] ?? "" ?>">
                             <label class="form-text" for="floatingTextarea">Ingrese su correo</label>
                             <!-- mensaje de error: campo vacío -->
                             <?php if (isset($errores['email'])): ?>
@@ -105,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button type="submit" class="btn btn-cine-gold">Ingresar</button>
                         </div>
                     </form>
-                    <div class="text-center mb-3"><a href="registrarUsuario.php" class="text-danger">Aun no poseo una
+                    <div class="text-center mb-3"><a href="/registrarUsuario/" class="text-danger">Aun no poseo una
                             cuenta</a></div>
                 </div>
             </div>
@@ -113,14 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
     <!-- fin de cuerpo principal -->
 
+    <?php include_once(__DIR__ . "/partials/footer.php") ?>
 
-    <?php include_once("./partials/footer.php") ?>
-
-    <!-- Bootstrap 5 JavaScript Bundle (incluye Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
 </body>
 
 </html>

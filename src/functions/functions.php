@@ -1,5 +1,23 @@
-<!-- creando la funcion para conectar a la base de datos -->
 <?php
+// ----------------------------------------------------
+// seguridad de cookies de sesión
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1); // HTTPS obligatorio
+ini_set('session.use_strict_mode', 1);
+ini_set('session.cookie_path', '/'); // necesario para setear ruta para las cookies
+ini_set('session.cookie_domain', ''); // tu dominio actual
+
+// Invocar a la función session_start()
+session_start();
+// token CSRF
+function getCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+// ----------------------------------------------------
+// creando la funcion para conectar a la base de datos
 function conexion($host, $bd, $port, $user, $pass)
 {
     try {
@@ -9,6 +27,7 @@ function conexion($host, $bd, $port, $user, $pass)
         echo "<h2 class='alert alert-danger'>Uff!! no se pudo conectar a la base de datos, error: " . $error->getMessage() . "</h2>";
     }
 }
+
 // funcion para registrar una película en la tabla: movies
 function registrarPeliculas($bd, $tabla, $datos)
 {
@@ -34,12 +53,10 @@ function registrarPeliculas($bd, $tabla, $datos)
     $query->bindValue(':imagen', $imagen);
     // 3. ejecutar la consulta
     $query->execute();
-    // 4. redirigimos a la siguiente página
-    header('location: index.php#estrenos');
 
 }
 
-// función para mostrar las películas en el index
+// función para mostrar las películas en el home
 function mostrarPeliculas($bd, $tabla)
 {
     // 1. consulta SQL para obtener todas las películas
@@ -96,9 +113,8 @@ function formatearFecha($fecha)
 }
 
 // función para registrar nuevos usuarios a la tabla: users
-function registrarUsuario($bd, $tabla, $datos)
-{
-    // recibiendo los datos por name - value
+function registrarUsuario($bd, $tabla, $datos) {
+    // 1. recibiendo los datos por name - value
     $nombre = $datos['nombre'];
     $apellido = $datos['apellido'];
     $email = $datos['email'];
@@ -106,8 +122,7 @@ function registrarUsuario($bd, $tabla, $datos)
     $perfil = $datos['perfil'];
     // 1. insert los datos a la bd
     $insert = "insert into $tabla (nombre, apellido, email, password, perfil) values (:nombre, :apellido, :email, :password, :perfil)";
-    // var_dump($insert);
-    // exit;
+    
     // 2. preparando consulta
     $query = $bd->prepare($insert);
     // o bindParams para evitar los sql injections
@@ -216,4 +231,11 @@ function mensajeAlertFlash(){
             unset($_SESSION[$llave]);
         }
     }
+}
+
+// Función para efectuar el seteo del usuario en sessión
+function sessionUsuario($usuario){
+    $_SESSION['nombre'] = $usuario['nombre'];
+    $_SESSION['apellido'] = $usuario['apellido'];
+    $_SESSION['perfil'] = $usuario['perfil'];
 }

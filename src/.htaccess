@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# 1. Quitar la extensión .php de la URL
+# Si el usuario pide /peliculas, el servidor busca peliculas.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\/]+)\/?$ $1.php [L]
+
+# 2. Forzar que siempre termine en barra / (opcional)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^.]+)$ $1/ [L,R=301]

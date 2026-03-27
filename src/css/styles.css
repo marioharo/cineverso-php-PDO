@@ -111,8 +111,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 2rem;
     animation: fadeInUp 1.2s ease-out;
 }
-
-.btn-cine-gold {
+.btn-cine-gold-home, .btn-cine-gold{
     background-color: var(--cine-gold);
     color: var(--cine-dark);
     border: none;
@@ -121,6 +120,9 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1.5px;
     transition: all 0.3s ease;
     animation: fadeInUp 1.4s ease-out;
+}
+.btn-cine-gold {
+    width: 100%;
 }
 
 .btn-cine-gold:hover {

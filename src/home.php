@@ -1,7 +1,6 @@
 <?php
-session_start();
-include_once('./config.php');
-include_once('./functions/functions.php');
+include_once(__DIR__ . '/functions/functions.php');
+include_once(__DIR__ . '/config.php');
 // conección con la base de datos MySQL
 $bd = conexion(DB_HOST, DB_NAME, DB_PORT, DB_USER, DB_PASS);
 // Obtener todas las películas
@@ -29,13 +28,13 @@ $peliculas = mostrarPeliculas($bd, 'movies');
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css">
     <!-- Css -->
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
 
-    <?php include_once("./partials/navbar.php") ?>
-    
+    <?php include_once(__DIR__ . "/partials/navbar.php") ?>
+        
     <!-- Carrusel principal -->
     <div id="carouselCineVerso" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -47,15 +46,14 @@ $peliculas = mostrarPeliculas($bd, 'movies');
                 aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            
+
             <!-- Slide 1 -->
             <div class="carousel-item active">
-                <img src="./img/banner-01.jpg"
-                    class="d-block w-100" alt="Cine clásico">
+                <img src="/img/banner-01.jpg" class="d-block w-100" alt="Cine clásico">
                 <div class="carousel-caption">
                     <h1>EXPLORA NUEVOS UNIVERSOS</h1>
                     <p>Descubre las películas más impactantes de la temporada</p>
-                    <a class="btn btn-cine-gold text-decoration-none text-black" href="#estrenos">Ver Estrenos</a>
+                    <a class="btn btn-cine-gold-home text-decoration-none text-black" href="#estrenos">Ver Estrenos</a>
                 </div>
             </div>
             <!-- Slide 2 -->
@@ -65,7 +63,8 @@ $peliculas = mostrarPeliculas($bd, 'movies');
                 <div class="carousel-caption">
                     <h1>EXPERIENCIA CINEMATOGRÁFICA</h1>
                     <p>Vive la magia del cine en su máxima expresión</p>
-                    <a class="btn btn-cine-gold text-decoration-none text-black" href="registrarPelicula.php">Registra una película</a>
+                    <a class="btn btn-cine-gold-home text-decoration-none text-black" href="registrarPelicula.php">Registra
+                        una película</a>
                 </div>
             </div>
             <!-- Slide 3 -->
@@ -75,7 +74,7 @@ $peliculas = mostrarPeliculas($bd, 'movies');
                 <div class="carousel-caption">
                     <h1>PREMIADAS Y ACLAMADAS</h1>
                     <p>Las mejores películas galardonadas en los festivales internacionales</p>
-                    <a class="btn btn-cine-gold text-decoration-none text-black" href="#">Ver Premios</a>
+                    <a class="btn btn-cine-gold-home text-decoration-none text-black" href="#">Ver Premios</a>
                 </div>
             </div>
         </div>
@@ -142,7 +141,7 @@ $peliculas = mostrarPeliculas($bd, 'movies');
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php else: ?>
+            <?php else: ?>
                 <!-- Mensaje cuando no hay películas -->
                 <div class="no-peliculas">
                     <i class="bi bi-camera-reels"></i>
@@ -154,12 +153,8 @@ $peliculas = mostrarPeliculas($bd, 'movies');
         </div>
     </section>
 
-    <?php include_once("./partials/footer.php") ?>
+    <?php include_once(__DIR__ . "/partials/footer.php") ?>
 
-    <!-- Bootstrap 5 JavaScript Bundle (incluye Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>

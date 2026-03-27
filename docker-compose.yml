@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Servidor PHP + Apache
+  web_php:
+    build: .
+    image: php-apache
+    container_name: php-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - cineverso_red
+
+  # Base de Datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cine_isil
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - cineverso_red
+
+  # Gestor Visual de Base de Datos
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+    networks:
+      - cineverso_red
+
+networks:
+  cineverso_red:
+    name: cineverso_red
+
+volumes:
+  mysql_data:
+    name: cineverso_mysql_data
